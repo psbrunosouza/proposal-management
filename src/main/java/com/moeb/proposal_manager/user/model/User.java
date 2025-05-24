@@ -1,54 +1,39 @@
 package com.moeb.proposal_manager.user.model;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
-
 import com.moeb.proposal_manager.proposal.model.Proposal;
 import com.moeb.proposal_manager.shared.model.BaseEntity;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 
-@Entity
-@Table(name = "users")
 public class User extends BaseEntity {
-  @Column(nullable = false)
   private String name;
-
-  @Column(unique = true, nullable = false)
   private String email;
-
-  @Column(nullable = false)
   private String password;
-
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Proposal> proposals;
 
   public User() {
   }
 
-  public User(UUID id, String name, String email) {
-    super();
+  public User(UUID id, String name, String email, OffsetDateTime createdAt) {
     this.name = name;
     this.email = email;
     super.setId(id);
+    super.setCreatedAt(createdAt);
   }
 
   public User(String name, String email, String password) {
-    super();
     this.name = name;
     this.email = email;
     this.password = password;
   }
 
-  public User(UUID id, String name, String email, String password) {
-    super();
+  public User(UUID id, String name, String email, String password, OffsetDateTime createdAt) {
     this.name = name;
     this.email = email;
     this.password = password;
     super.setId(id);
+    super.setCreatedAt(createdAt);
   }
 
   public String getEmail() {

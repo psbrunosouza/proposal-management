@@ -23,7 +23,7 @@ public class ProposalService {
     this.userRepository = userRepository;
   }
 
-  public Optional<ProposalDTO> create(CreateProposalDTO dto) {
+  public ProposalDTO create(CreateProposalDTO dto) {
     Optional<User> user = userRepository.findById(dto.getUser().getId());
 
     if (user.isEmpty()) {
@@ -34,9 +34,8 @@ public class ProposalService {
 
     Proposal savedProposal = proposalRepository.save(proposal);
 
-    Optional<ProposalDTO> proposalWithRelations = proposalRepository.findById(savedProposal.getId())
-        .map(ProposalMapper::toDTO);
+    ProposalDTO proposalDTO = ProposalMapper.toDTO(savedProposal);
 
-    return proposalWithRelations;
+    return proposalDTO;
   }
 }

@@ -1,10 +1,8 @@
 package com.moeb.proposal_manager.user.service;
 
 import java.util.Optional;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.moeb.proposal_manager.shared.exception.ConflictException;
 import com.moeb.proposal_manager.user.dto.CreateUserDTO;
 import com.moeb.proposal_manager.user.dto.UserDTO;
@@ -41,6 +39,6 @@ public class UserService {
 
   public Optional<User> findUsername(String email) {
     return userRepository.findByEmail(email)
-        .map((u) -> new User(u.getId(), u.getName(), u.getEmail(), u.getPassword()));
+        .map((u) -> new User(u.getId(), u.getName(), u.getEmail(), u.getPassword(), u.getCreatedAt()));
   }
 }

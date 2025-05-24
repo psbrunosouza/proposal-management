@@ -15,7 +15,6 @@ import com.moeb.proposal_manager.shared.exception.ResourceNotFoundException;
 import com.moeb.proposal_manager.user.dto.CreateUserDTO;
 import com.moeb.proposal_manager.user.dto.UserDTO;
 import com.moeb.proposal_manager.user.service.UserService;
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -27,7 +26,7 @@ public class UserController {
   }
 
   @PostMapping("/register")
-  public ResponseEntity<UserDTO> register(@Valid @RequestBody CreateUserDTO dto) {
+  public ResponseEntity<UserDTO> register(@RequestBody CreateUserDTO dto) {
     UserDTO createdUser = userService.create(dto);
     return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
   }
