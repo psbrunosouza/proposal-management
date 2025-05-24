@@ -1,14 +1,17 @@
+version: "3.8"
+
 services:
   postgres:
     container_name: proposal-manager-db
-    image: postgres
+    image: postgres:15-alpine
     environment:
       POSTGRES_USER: proposal-manager-admin
       POSTGRES_PASSWORD: f1e5b899692494280310c74ca4327751
       POSTGRES_DB: proposal-manager-db
     ports:
-      - 5433:5432
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
 volumes:
   postgres_data:

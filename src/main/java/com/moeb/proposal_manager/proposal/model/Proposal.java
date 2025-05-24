@@ -8,7 +8,6 @@ import com.moeb.proposal_manager.user.model.User;
 
 public class Proposal extends BaseEntity {
   private String title;
-
   private User user;
 
   public Proposal() {

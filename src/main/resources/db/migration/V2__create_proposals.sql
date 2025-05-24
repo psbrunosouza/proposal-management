@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS proposals (
+  id UUID PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL,
+  user_id UUID NOT NULL REFERENCES users(id)
+);

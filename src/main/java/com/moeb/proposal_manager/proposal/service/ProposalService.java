@@ -2,10 +2,13 @@ package com.moeb.proposal_manager.proposal.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.moeb.proposal_manager.proposal.dto.CreateProposalDTO;
 import com.moeb.proposal_manager.proposal.dto.ProposalDTO;
+import com.moeb.proposal_manager.proposal.dto.UpdateProposalDTO;
 import com.moeb.proposal_manager.proposal.mapper.ProposalMapper;
 import com.moeb.proposal_manager.proposal.model.Proposal;
 import com.moeb.proposal_manager.proposal.repository.ProposalRepository;
@@ -25,23 +28,36 @@ public class ProposalService {
   }
 
   public ProposalDTO create(CreateProposalDTO dto) {
-    Optional<User> user = userRepository.findById(dto.getUser().getId());
+    User existingUser = userRepository.findById(dto.getUser().getId())
+        .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-    if (user.isEmpty()) {
-      throw new ResourceNotFoundException("User not found");
-    }
+    Proposal savedProposal = proposalRepository.save(new Proposal(
+        dto.getTitle(),
+        existingUser));
 
-    Proposal proposal = new Proposal(dto.getTitle(), user.get());
-
-    Proposal savedProposal = proposalRepository.save(proposal);
-
-    ProposalDTO proposalDTO = ProposalMapper.toDTO(savedProposal);
-
-    return proposalDTO;
+    return ProposalMapper.toDTO(savedProposal);
   }
 
   public List<ProposalDTO> findAll() {
     List<Proposal> proposals = proposalRepository.findAll();
     return proposals.stream().map(ProposalMapper::toDTO).toList();
+  }
+
+  public Optional<ProposalDTO> findById(UUID id) {
+    Optional<Proposal> proposal = proposalRepository.findById(id);
+    return proposal.map(ProposalMapper::toDTO);
+  }
+
+  public ProposalDTO update(UUID id, UpdateProposalDTO dto) {
+    Proposal existingProposal = proposalRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Proposal not found"));
+
+    Proposal savedProposal = proposalRepository.update(new Proposal(
+        existingProposal.getId(),
+        dto.getTitle(),
+        existingProposal.getUser(),
+        existingProposal.getCreatedAt()));
+
+    return ProposalMapper.toDTO(savedProposal);
   }
 }
