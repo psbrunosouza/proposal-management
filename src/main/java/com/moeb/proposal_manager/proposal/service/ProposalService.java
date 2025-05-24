@@ -1,5 +1,6 @@
 package com.moeb.proposal_manager.proposal.service;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,5 +38,10 @@ public class ProposalService {
     ProposalDTO proposalDTO = ProposalMapper.toDTO(savedProposal);
 
     return proposalDTO;
+  }
+
+  public List<ProposalDTO> findAll() {
+    List<Proposal> proposals = proposalRepository.findAll();
+    return proposals.stream().map(ProposalMapper::toDTO).toList();
   }
 }
