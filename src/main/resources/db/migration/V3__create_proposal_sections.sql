@@ -1,0 +1,21 @@
+CREATE TYPE SECTION_TYPE AS ENUM (
+ 'TITLE',
+  'SUBJECT',
+  'GOALS',
+  'METRICS',
+  'TEAM',
+  'TIMELINE',
+  'INVESTMENTS',
+  'TERM',
+  'SIGNATURE',
+  'CONTACTS',
+  'REFERENCES'
+);
+
+CREATE TABLE IF NOT EXISTS proposal_sections (
+  id UUID PRIMARY KEY,
+  type SECTION_TYPE NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL,
+  proposal_id UUID NULL REFERENCES proposals(id),
+  content JSONB NOT NULL
+);
